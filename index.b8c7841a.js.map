@@ -1,1 +1,0 @@
-{"mappings":"AAIaA,SAASC,cAAc,gBAEpCC,MAAM","sources":["src/index.js"],"sourcesContent":["\n\n\n\nconst form = document.querySelector('#search-form');\n\nfetch('https://pixabay.com/api/?key=28371494-c5e29ef795b67968f0a2006d4');"],"names":["document","querySelector","fetch"],"version":3,"file":"index.b8c7841a.js.map"}
