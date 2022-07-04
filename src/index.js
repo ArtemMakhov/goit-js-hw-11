@@ -3,8 +3,8 @@
 import { fetchImages , resetPages} from "./js/fetch-images";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-import throttle from "lodash.throttle";
 import { Notify } from "notiflix";
+
 
 
 const refs = {
@@ -21,7 +21,7 @@ const lightbox = new SimpleLightbox('.gallery a', {
 })
 
 let searchText = '';
-let lastPage = 0;
+
 
 async function onFormSubmit(e) {
     e.preventDefault();
@@ -30,14 +30,17 @@ async function onFormSubmit(e) {
     searchText = e.currentTarget.searchQuery.value.trim();
     
     const {totalHits,hits} = await fetchImages(searchText);
-    // console.log();
+    
     e.target.reset();
-  
+ 
   
   if (hits.length === 0) {
-    alertNoImagesFound();
-  } else {
-        alertYesImagesFound(totalHits);
+    
+    imagesFoundFailure();
+  } 
+  else {
+    
+        imagesFoundSuccess(totalHits);
     }
 
     renderCards(hits);
@@ -86,17 +89,12 @@ async function onLoadMoreImg() {
     lightbox.refresh();
 }
 
-// function onClickTopBtn() {
-//   if (window.pageYOffset > 0) {
-//     window.scrollTo({ top: 0, behavior: 'smooth' });
-//   }
-// }
 
-function alertNoImagesFound() {
+function imagesFoundFailure() {
   Notify.failure('Sorry, there are no images matching your search query. Please try again.');
 }
 
-function alertYesImagesFound(hits) {
+function imagesFoundSuccess(hits) {
   Notify.success(`Hooray! We found ${hits} images.`);
 }
 
@@ -111,15 +109,7 @@ const observer = new IntersectionObserver(entries => {
    if (searchText === '') {
       return;
     }
-    console.log( );
-    //  if (page === lastPage) {
-    //   setTimeout(() => {
-    //     Notify.info("We're sorry, but you've reached the end of search results.");
-    //   }, 1000);
-    //   lastPage = 0;
-    //   return;
-    // }
-
+   
     if (entry.isIntersecting) {
        onLoadMoreImg();
       }

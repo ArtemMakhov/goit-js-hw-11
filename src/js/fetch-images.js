@@ -14,7 +14,7 @@ let page = 1;
 
 async function fetchImages(query) {
     
-    const optionParam = new URLSearchParams({
+   try { const optionParam = new URLSearchParams({
         key: `${KEY_API}`,
         q: query,
         image_type: 'photo',
@@ -30,14 +30,11 @@ async function fetchImages(query) {
     
     page += 1;
     
-    let lastPage = data.totalHits - 40 * page;
-    console.log(lastPage);
-    if ( lastPage <= 0 ) {
+    return data;
+  
+   } catch (error) {
       Notify.info(`We're sorry, but you've reached the end of search results.`);
-      return;
-    }
-
-     return data;
+     }
 };
 
 function resetPages() {
