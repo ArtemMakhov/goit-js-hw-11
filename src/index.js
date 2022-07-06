@@ -3,7 +3,8 @@
 import { fetchImages , resetPages} from "./js/fetch-images";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-import { Notify } from "notiflix";
+import { showSuccessMessage } from "./js/messages";
+import { showFailureMessage } from "./js/messages";
 
 
 
@@ -17,7 +18,7 @@ refs.form.addEventListener('submit', onFormSubmit);
 
 
 const lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt', captionsDelay: 250,
+    captionsData: 'alt', captionsDelay: 500,
 })
 
 let searchText = '';
@@ -36,11 +37,11 @@ async function onFormSubmit(e) {
   
   if (hits.length === 0) {
     
-    imagesFoundFailure();
+    showFailureMessage();
   } 
   else {
     
-        imagesFoundSuccess(totalHits);
+        showSuccessMessage(totalHits);
     }
 
     renderCards(hits);
@@ -57,16 +58,16 @@ function createCardsMarkup(cards) {
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>${likes}</b>
+      <b>Likes: ${likes}</b>
     </p>
     <p class="info-item">
-      <b>Views${views}</b>
+      <b>Views: ${views}</b>
     </p>
     <p class="info-item">
-      <b>Comments${comments}</b>
+      <b>Comments: ${comments}</b>
     </p>
     <p class="info-item">
-      <b>Downloads${downloads}</b>
+      <b>Downloads: ${downloads}</b>
     </p>
   </div>
   </a>
@@ -88,16 +89,6 @@ async function onLoadMoreImg() {
     renderCards(hits);
     lightbox.refresh();
 }
-
-
-function imagesFoundFailure() {
-  Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-}
-
-function imagesFoundSuccess(hits) {
-  Notify.success(`Hooray! We found ${hits} images.`);
-}
-
 
 const options = {
   rootMargin: "500px",

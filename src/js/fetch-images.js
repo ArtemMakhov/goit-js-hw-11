@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Notify } from "notiflix";
+import { showInfoMessage } from './messages';
 
 export { fetchImages, resetPages }
 
@@ -33,7 +33,7 @@ async function fetchImages(query) {
     return data;
   
    } catch (error) {
-      Notify.info(`We're sorry, but you've reached the end of search results.`);
+       showInfoMessage()
      }
 };
 
